@@ -1,7 +1,8 @@
 requirejs.config({
     paths: {
         "jquery": "jquery.min",
-        "jquery.bootstrap": "../theme/js/bootstrap.min"
+        "jquery.bootstrap": "../theme/js/bootstrap.min",
+        "ko": "knockout-3.1.0"
     },
     shim: {
         "jquery.bootstrap": {
@@ -10,5 +11,6 @@ requirejs.config({
     }
 });
 
-require(["jquery", "jquery.bootstrap"], function ($) {
+require(["ko", "jquery", "jquery.bootstrap"], function (ko, $) {
+	
 });
