@@ -15,7 +15,7 @@ requirejs.config({
     }
 });
 
-require(["ko", "jquery", "jquery.bootstrap","appViewModel"], function (ko, $) {
+require(["ko", "jquery", "jquery.bootstrap","appViewModel"], function (ko, $, something, AppViewModel) {
 	$(document).ready(function() {
 		var appViewModel = new AppViewModel(ko);
 		ko.applyBindings(appViewModel);

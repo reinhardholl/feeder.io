@@ -1,10 +1,9 @@
 define(["jquery"], function($) {
-	return Application = function(mainViewModel) {
+	return function(mainViewModel) {
 		var self = this;
 
 		function init() {
 			setupGoogleFeeds();
-			console.log(mainViewModel)
 			if(mainViewModel.appInitialized)
 				mainViewModel.appInitialized();
 		}
