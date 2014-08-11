@@ -5,14 +5,6 @@ body{padding-top:50px}#banner{min-height:300px;border-bottom:none}.page-header h
     overflow: hidden;
     box-shadow: 0 0 1px #CCC;
 }
-.post img
-{
-    filter: blur(2px);
-    -webkit-filter: blur(2px);
-    -moz-filter: blur(2px);
-    -o-filter: blur(2px);
-    -ms-filter: blur(2px);
-}
 .post .content
 {
     padding: 15px;
