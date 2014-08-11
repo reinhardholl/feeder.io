@@ -5,6 +5,7 @@ define(["ko", "jquery"], function(ko, $) {
 		self.content = data.content;
 		self.author = data.author;
 		self.publishedDate = data.publishedDate;
+		self.link = data.link;
 	}
 
 	function Feed(data) {
@@ -24,6 +25,7 @@ define(["ko", "jquery"], function(ko, $) {
 		                	title: current.title,
 		                	content: current.content,
 		                	author: self.title,
+		                	link: current.link,
 		                	publishedDate: current.publishedDate
 		                }));
 		            }
