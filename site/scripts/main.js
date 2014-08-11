@@ -18,7 +18,7 @@
 
     require(["ko","FeedModule", "appViewModel", "jquery.bootstrap"], function (ko, FeedModule, AppViewModel) {
         var postbox = new ko.subscribable();
-        var application = new FeedModule(postbox);
+        var FeedModule = new FeedModule(postbox);
         var appViewModel = new AppViewModel(postbox);          
         ko.applyBindings(appViewModel);
         postbox.notifySubscribers(null, "application_start");

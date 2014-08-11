@@ -29,16 +29,36 @@
           </div>
         </div>    
       </div>
-      <div class="row">
-        <div data-bind="template: activeTemplate">
+      <div data-bind="template: activeTemplate">
       </div>
-    </div>
     <!-- Templates -->
     <script type="text/html" id="feed-overview">
-      <h1>Awesome template!</h1>      
+    <div data-bind="foreach: entryRows">
+      <div class="row" data-bind="foreach: $data">
+        <div class="col-sm-4 col-md-4">
+              <div class="post">
+                  <div class="post-img-content">
+                      <img src="#" class="img-responsive" />
+                      <span class="post-title"><b data-bind="text: title"></b></span>
+                  </div>
+                  <div class="content">
+                      <div class="author">
+                          By <b data-bind="text: author"></b> |
+                          <time data-bind="text: publishedDate, attr: { datetime: publishedDate }"></time>
+                      </div>
+                      <div data-bind="text: content">                          
+                      </div>
+                      <div>
+                          <a data-bind="attr: { href: link}" class="btn btn-primary btn-sm">Read more</a>
+                      </div>
+                  </div>
+              </div>
+        </div>
+      </div>
+    </div>
     </script>
     <script type="text/html" id="initializing">
-      <h1>Loading...</h1>      
+      <h1>Loading...</h1>
     </script>
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <script type="text/javascript">google.load("feeds", "1");</script>    
