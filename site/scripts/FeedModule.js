@@ -8,7 +8,7 @@ define(["jquery"], function($) {
 		}
 
 		function loadInitialFeeds(done) {
-			loadFeed("http://www.trulia.com/rss2/San_Francisco,CA/3p_baths/3p_beds/800000-2000000_price/date;d_sort/");
+			loadFeed("http://www.engadget.com/rss.xml");
 		}
 
 		function loadFeed(feedPath) {
