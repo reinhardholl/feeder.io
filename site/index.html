@@ -24,8 +24,8 @@
       <div class="page-header">
         <div class="row">
           <div class="col-lg-8 col-md-7 col-sm-6">
-            <h1>Available Feeds</h1>
-            <p class="lead">All nicely grouped for you..</p>
+            <h1>Search Feeds</h1>
+            <input data-bind="value: feedUrl" type="text"></input>
           </div>
         </div>    
       </div>
@@ -38,7 +38,7 @@
         <div class="col-sm-4 col-md-4">
               <div class="post">
                   <div class="post-img-content">
-                      <img src="theme/img/newrss.jpg" class="img-responsive" />
+                      <img data-bind="attr: {src: thumbSrc }" class="img-responsive" />
                       <span class="post-title"><b data-bind="text: title"></b></span>
                   </div>
                   <div class="content">

@@ -6,6 +6,18 @@ define(["ko", "jquery"], function(ko, $) {
 		self.author = data.author;
 		self.publishedDate = data.publishedDate;
 		self.link = data.link;
+		self.thumbSrc = ko.computed(function() {
+			var content = self.content;
+			// image embedded in html..
+			if(content.indexOf("<img") != -1) {
+				var imageHtml = content.substring(content.indexOf("<"), content.indexOf(">") + 1);
+				self.content = self.content.replace(imageHtml, "");
+				self.thumbSrc = $(imageHtml).attr("src");
+				if(self.thumbSrc && self.thumbSrc != "" && self.thumbSrc != null)
+					return self.thumbSrc;
+			}
+			return "theme/img/newrss.jpg";
+		});
 	}
 
 	function Feed(data) {
@@ -39,6 +51,7 @@ define(["ko", "jquery"], function(ko, $) {
 	return function (postbox) {
 		var self = this;
 		self.activeFeed = ko.observable();
+		self.feedUrl = ko.observable();
 		self.activeTemplate = ko.observable({
 			name: "initializing",
 			data: {}
@@ -46,6 +59,9 @@ define(["ko", "jquery"], function(ko, $) {
 
 		function setupSubscriptions() {
 			postbox.subscribe(onFeedData, null, "feed_newfeeddata");
+			self.feedUrl.subscribe(function(url) {
+				postbox.notifySubscribers(url, "new_feed_url")
+			});
 		}
 
 		function onFeedData(feedData) {

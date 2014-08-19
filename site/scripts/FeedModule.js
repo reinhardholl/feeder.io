@@ -4,6 +4,7 @@ define(["jquery"], function($) {
 		
 		function setupSubscriptions() {
 			postbox.subscribe(loadInitialFeeds, null, "application_start");
+			postbox.subscribe(loadFeed, null, "new_feed_url");
 		}
 
 		function loadInitialFeeds(done) {
