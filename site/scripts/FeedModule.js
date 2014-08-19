@@ -36,8 +36,8 @@ define(["jquery", "firebase"], function($) {
 			if(!auth.isLoggedIn()) {
 				for(z=0; feedData.feed.entries.length; z++) {
 					feedData.feed.entries[z].isNew = true;
-					return done(feedData);
 				}
+				return done(feedData);
 			}				
 
 			var query = baseRef.child(auth.currentUser().uid).child("feeds").child(feedData.feed.title).limit(60);
