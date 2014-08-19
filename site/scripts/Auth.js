@@ -14,8 +14,9 @@ define(["ko", "firebase", "fbase-simpleloging"], function(ko) {
 			  if (error) {
 			    alert(error);
 			  } else if (user) {
-			  	registerUserIfNew(user);
-			    postbox.notifySubscribers(user, "user_login");
+			  	registerUserIfNew(user, function() {
+			  		postbox.notifySubscribers(user, "user_login");	
+			  	});			    
 			  } else {
 			    postbox.notifySubscribers(null, "user_login");
 			  }
@@ -27,15 +28,16 @@ define(["ko", "firebase", "fbase-simpleloging"], function(ko) {
 			postbox.subscribe(logout, null, "logout_click");
 		}
 
-		function registerUserIfNew(user) {
+		function registerUserIfNew(user, done) {
 			baseRef.child("users").child(user.uid).once("value", function(data) {
-				if(data) return; // not a new user
+				if(data.val()) return done(); // not a new user
 
 				baseRef.child('users').child(user.uid).set({
 			        displayName: user.displayName,
 			        provider: user.provider,
 			        provider_id: user.id
 		      	});
+		      	done();
 			});
 		}
 

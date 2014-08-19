@@ -15,7 +15,8 @@
              "ko": {
                 deps: ["jquery"]    
              }
-        }
+        },
+        urlArgs: "bust=" + (new Date()).getTime()
     });
 
     require(["ko","FeedModule", "appViewModel", "auth", "jquery.bootstrap"], function (ko, FeedModule, AppViewModel, Auth) {

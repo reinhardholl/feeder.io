@@ -8,7 +8,10 @@ define(["jquery"], function($) {
 		}
 
 		function loadInitialFeeds(done) {
-			loadFeed("http://www.engadget.com/rss.xml");
+			setTimeout(function() {
+				loadFeed("http://www.engadget.com/rss.xml");
+			}, 400);
+			
 		}
 
 		function loadFeed(feedPath) {
