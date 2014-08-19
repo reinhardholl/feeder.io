@@ -6199,7 +6199,7 @@ button.close {
   color: #333333;
 }
 .navbar-brand {
-  padding-top: 20px;
+  padding-top: 10px;
 }
 @media (max-width: 768px) {
   .navbar .navbar-nav > li > a {

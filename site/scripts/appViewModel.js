@@ -16,7 +16,7 @@ define(["ko", "jquery"], function(ko, $) {
 				if(self.thumbSrc && self.thumbSrc != "" && self.thumbSrc != null)
 					return self.thumbSrc;
 			}
-			return "theme/img/newrss.jpg";
+			return "theme/img/rssplaceholder.png";
 		});
 	}
 
@@ -48,7 +48,7 @@ define(["ko", "jquery"], function(ko, $) {
 		});
 	}
 
-	return function (postbox) {
+	return function (postbox, auth) {
 		var self = this;
 		self.activeFeed = ko.observable();
 		self.feedUrl = ko.observable();
@@ -56,6 +56,15 @@ define(["ko", "jquery"], function(ko, $) {
 			name: "initializing",
 			data: {}
 		});
+		self.isLoggedIn = ko.observable(false);
+
+		self.loginClick = function() {
+			$("#loginModal").modal();
+		}
+
+		self.loginWithFacebook = function() {
+			postbox.notifySubscribers("facebook", "social_login");
+		}
 
 		function setupSubscriptions() {
 			postbox.subscribe(onFeedData, null, "feed_newfeeddata");
@@ -65,7 +74,6 @@ define(["ko", "jquery"], function(ko, $) {
 		}
 
 		function onFeedData(feedData) {
-			console.log(feedData)
 			if(feedData && feedData.feed) {
 				self.activeFeed(new Feed(feedData));
 				self.activeTemplate({

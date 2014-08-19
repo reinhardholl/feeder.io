@@ -34,17 +34,17 @@
 18 verbose url raw firebase-tools
 19 verbose url resolving [ 'https://registry.npmjs.org/', './firebase-tools' ]
 20 verbose url resolved https://registry.npmjs.org/firebase-tools
-21 info trying registry request attempt 1 at 16:42:30
+21 info trying registry request attempt 1 at 17:44:24
 22 http GET https://registry.npmjs.org/firebase-tools
-23 info retry will retry, error on last attempt: Error: tunneling socket could not be established, cause=11316:error:140770FC:SSL routines:SSL23_GET_SERVER_HELLO:unknown protocol:openssl\ssl\s23_clnt.c:766:
-24 info trying registry request attempt 2 at 16:42:40
+23 info retry will retry, error on last attempt: Error: tunneling socket could not be established, cause=10768:error:140770FC:SSL routines:SSL23_GET_SERVER_HELLO:unknown protocol:openssl\ssl\s23_clnt.c:766:
+24 info trying registry request attempt 2 at 17:44:34
 25 http GET https://registry.npmjs.org/firebase-tools
-26 info retry will retry, error on last attempt: Error: tunneling socket could not be established, cause=11316:error:140770FC:SSL routines:SSL23_GET_SERVER_HELLO:unknown protocol:openssl\ssl\s23_clnt.c:766:
-27 info trying registry request attempt 3 at 16:43:40
+26 info retry will retry, error on last attempt: Error: tunneling socket could not be established, cause=10768:error:140770FC:SSL routines:SSL23_GET_SERVER_HELLO:unknown protocol:openssl\ssl\s23_clnt.c:766:
+27 info trying registry request attempt 3 at 17:45:34
 28 http GET https://registry.npmjs.org/firebase-tools
 29 silly lockFile 59c4bcc4-firebase-tools firebase-tools@
 30 silly lockFile 59c4bcc4-firebase-tools firebase-tools@
-31 error Error: tunneling socket could not be established, cause=11316:error:140770FC:SSL routines:SSL23_GET_SERVER_HELLO:unknown protocol:openssl\ssl\s23_clnt.c:766:
+31 error Error: tunneling socket could not be established, cause=10768:error:140770FC:SSL routines:SSL23_GET_SERVER_HELLO:unknown protocol:openssl\ssl\s23_clnt.c:766:
 31 error
 31 error     at ClientRequest.onError (c:\Program Files\nodejs\node_modules\npm\node_modules\request\node_modules\tunnel-agent\index.js:159:17)
 31 error     at ClientRequest.g (events.js:175:14)

@@ -16,8 +16,13 @@
     <div class="navbar navbar-default navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
-          <a href="#" class="navbar-brand">Feeder.io</a>
+          <a href="#" class="navbar-brand">
+            <img src="theme/img/logo.png">
+            Feeder.io</a>
         </div>
+        <ul class="nav navbar-nav navbar-right">
+            <li data-bind="if: !isLoggedIn()"><a href="#" data-bind="click: loginClick">Login</a></li>            
+          </ul>
       </div>
     </div>
     <div class="container">
@@ -31,6 +36,19 @@
       </div>
       <div data-bind="template: activeTemplate">
       </div>
+      <div id="loginModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-body" style="text-align: center">
+          <a class="btn btn-primary btn-large col-sm-6" data-bind="click: loginWithFacebook">Login With Facebook</a>
+          <br />
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
     <!-- Templates -->
     <script type="text/html" id="feed-overview">
     <div data-bind="foreach: entryRows">
