@@ -124,6 +124,7 @@ define(["ko", "jquery"], function(ko, $) {
 					name: "feed-overview",
 					data: {}
 				});
+				$("#overlay").remove();
 			}
 		}
 		setupSubscriptions();
