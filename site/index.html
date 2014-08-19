@@ -32,11 +32,14 @@
       </div>
     </div>
     <div class="container">
+      <br />
       <div class="page-header">
         <div class="row">
-          <div class="col-lg-8 col-md-7 col-sm-6">
-            <h1>Search Feeds</h1>
-            <input data-bind="value: feedUrl" type="text"></input>
+          <div class="col-md-5 col-md-offset-3">
+            <div class="input-group">
+              <span class="input-group-addon">Search</span>
+              <input data-bind="value: feedUrl, valueUpdate: 'afterkeydown'" type="text" class="form-control"></input>
+            </div>
           </div>
         </div>    
       </div>
@@ -70,14 +73,14 @@
                           By <b data-bind="text: author"></b> |
                           <time data-bind="text: publishedDate, attr: { datetime: publishedDate }"></time>
                       </div>
-                      <div data-bind="text: content">                          
+                      <div data-bind="html: content">                          
                       </div>
-                      <hr />
-                      <div>
-                          <a data-bind="visible: isNew, click: feedReadClicked" class="btn btn-primary btn-sm">Read more</a>
-                          <a data-bind="visible: !isNew(), click: feedReadClicked" class="btn btn-success btn-sm">Read Again</a>
-                          <a class="btn btn-primary btn-sm pull-right" data-bind="click: $root.starClicked, visible: $root.isLoggedIn"><i class="glyphicon glyphicon-star"></i></a>
-                      </div>
+                      <hr />                      
+                  </div>
+                  <div class="footer">
+                    <a data-bind="visible: isNew, click: feedReadClicked" class="btn btn-primary btn-sm">Read more</a>
+                    <a data-bind="visible: !isNew(), click: feedReadClicked" class="btn btn-success btn-sm">Read Again</a>
+                    <a class="btn btn-primary btn-sm pull-right" data-bind="click: $root.starClicked, visible: $root.isLoggedIn"><i class="glyphicon glyphicon-star"></i></a>
                   </div>
               </div>
         </div>

@@ -20,11 +20,16 @@ define(["jquery", "firebase"], function($) {
 			var feed = new google.feeds.Feed(feedPath);
 			console.log(feed)
 			feed.setNumEntries(50);
+			feed.setResultFormat(google.feeds.Feed.JSON_FORMAT);
 			feed.load(function(feedData) {
 				setIsNewFlagOnFeedFromDatabase(feedData, function(finalData) {
 					postbox.notifySubscribers(finalData, "feed_newfeeddata");
 				});
 			});
+
+			google.feeds.findFeeds("cars", function(feds) {
+				console.log(feds)
+			})
 		}
 
 		function setIsNewFlagOnFeedFromDatabase(feedData, done) {

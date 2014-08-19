@@ -90,9 +90,18 @@ define(["ko", "jquery"], function(ko, $) {
 			postbox.subscribe(onFeedData, null, "feed_newfeeddata");
 			postbox.subscribe(loginStatusChange, null, "user_login");
 			postbox.subscribe(markFeedAsRead, null, "feed_read");
+			setupSearchChange();
+		}
+
+		function setupSearchChange() {
+			var timeout = null;
 			self.feedUrl.subscribe(function(url) {
-				postbox.notifySubscribers(url, "new_feed_url")
-			});			
+				if(!timeout)
+				timeout = setTimeout(function() {
+					timeout = null;
+					postbox.notifySubscribers(self.feedUrl(), "new_feed_url");		
+				}, 1000);
+			});
 		}
 
 		function markFeedAsRead(data) {

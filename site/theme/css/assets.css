@@ -7,6 +7,13 @@
 .post .content
 {
     padding: 15px;
+    overflow: hidden;
+    max-height: 400px;
+}
+
+.post .footer
+{
+    padding: 15px
 }
 .post .author
 {
