@@ -56,10 +56,18 @@ define(["ko", "jquery"], function(ko, $) {
 			name: "initializing",
 			data: {}
 		});
-		self.isLoggedIn = ko.observable(false);
+
+		self.currentUser = ko.observable(null);
+		self.isLoggedIn = ko.computed(function() {
+			return self.currentUser() != null;
+		});
 
 		self.loginClick = function() {
 			$("#loginModal").modal();
+		}
+
+		self.logoutClick = function() {
+			postbox.notifySubscribers(null, "logout_click");
 		}
 
 		self.loginWithFacebook = function() {
@@ -68,9 +76,16 @@ define(["ko", "jquery"], function(ko, $) {
 
 		function setupSubscriptions() {
 			postbox.subscribe(onFeedData, null, "feed_newfeeddata");
+			postbox.subscribe(loginStatusChange, null, "user_login");
 			self.feedUrl.subscribe(function(url) {
 				postbox.notifySubscribers(url, "new_feed_url")
-			});
+			});			
+		}
+
+		function loginStatusChange(user) {
+			self.currentUser(user);
+			if(self.isLoggedIn())
+				$("#loginModal").modal("hide");
 		}
 
 		function onFeedData(feedData) {

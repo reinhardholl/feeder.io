@@ -1,7 +1,7 @@
 define(["ko", "firebase", "fbase-simpleloging"], function(ko) {
 	return function(postbox) {
 		var self = this,
-			ref = new Firebase("https://feederapp.firebaseio.com"),
+			baseRef = new Firebase("https://feederapp.firebaseio.com"),
 			authClient = {};
 
 		function init() {
@@ -10,30 +10,37 @@ define(["ko", "firebase", "fbase-simpleloging"], function(ko) {
 		}
 
 		function setupAuthClient() {
-			authClient = new FirebaseSimpleLogin(ref, function(error, user) {
+			authClient = new FirebaseSimpleLogin(baseRef, function(error, user) {
 			  if (error) {
 			    alert(error);
 			  } else if (user) {
 			  	registerUserIfNew(user);
 			    postbox.notifySubscribers(user, "user_login");
-			    console.log("User ID: " + user.uid + ", Provider: " + user.provider);
 			  } else {
 			    postbox.notifySubscribers(null, "user_login");
-			    console.log("user is logged out");
 			  }
 			});
 		}
 
-		function registerUserIfNew(user) {
-			ref.child('users').child(user.uid).set({
-		        displayName: user.displayName,
-		        provider: user.provider,
-		        provider_id: user.id
-		      });
-		}
-
 		function setupSubscriptions() {
 			postbox.subscribe(login, null, "social_login");
+			postbox.subscribe(logout, null, "logout_click");
+		}
+
+		function registerUserIfNew(user) {
+			baseRef.child("users").child(user.uid).once("value", function(data) {
+				if(data) return; // not a new user
+
+				baseRef.child('users').child(user.uid).set({
+			        displayName: user.displayName,
+			        provider: user.provider,
+			        provider_id: user.id
+		      	});
+			});
+		}
+
+		function logout() {
+			authClient.logout();
 		}
 
 		function login(provider) {

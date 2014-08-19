@@ -21,7 +21,13 @@
             Feeder.io</a>
         </div>
         <ul class="nav navbar-nav navbar-right">
-            <li data-bind="if: !isLoggedIn()"><a href="#" data-bind="click: loginClick">Login</a></li>            
+            <li data-bind="if: !isLoggedIn()"><a href="#" data-bind="click: loginClick">Login</a></li>
+            <li class="dropdown" data-bind="if: currentUser">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-bind="text: currentUser().displayName"><span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="#" data-bind="click: logoutClick">Logout</a></li>
+              </ul>
+            </li>      
           </ul>
       </div>
     </div>
