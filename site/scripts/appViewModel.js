@@ -1,11 +1,13 @@
 define(["ko", "jquery"], function(ko, $) {
-	function FeedEntry(data) {
+	function FeedEntry(data, postbox) {
 		var self = this;
 		self.title = data.title;
 		self.content = data.content;
 		self.author = data.author;
 		self.publishedDate = data.publishedDate;
 		self.link = data.link;
+		self.isNew = ko.observable(data.isNew); 
+
 		self.thumbSrc = ko.computed(function() {
 			var content = self.content;
 			// image embedded in html..
@@ -17,14 +19,21 @@ define(["ko", "jquery"], function(ko, $) {
 					return self.thumbSrc;
 			}
 			return "theme/img/rssplaceholder.png";
-		});
+		});		
+
+		self.feedReadClicked = function(data) {
+			window.open(data.link);
+			if(self.isNew()) {
+				postbox.notifySubscribers(data, "feed_read");
+				self.isNew(false);
+			}
+		}
 	}
 
-	function Feed(data) {
+	function Feed(data, postbox) {
 		self.title = data.feed.title;
 		self.link = data.feed.link;
 		self.entries = ko.observableArray(data.feed.entries);
-
 		self.entryRows = ko.computed(function() {
 			var entries = self.entries();
 			var result = [];
@@ -38,8 +47,9 @@ define(["ko", "jquery"], function(ko, $) {
 		                	content: current.content,
 		                	author: self.title,
 		                	link: current.link,
-		                	publishedDate: current.publishedDate
-		                }));
+		                	publishedDate: current.publishedDate,
+		                	isNew: current.isNew
+		                }, postbox));
 		            }
 		        }
 		        result.push(row);
@@ -49,7 +59,8 @@ define(["ko", "jquery"], function(ko, $) {
 	}
 
 	return function (postbox, auth) {
-		var self = this;
+		var self = this,
+			initialized = false;
 		self.activeFeed = ko.observable();
 		self.feedUrl = ko.observable();
 		self.activeTemplate = ko.observable({
@@ -57,10 +68,7 @@ define(["ko", "jquery"], function(ko, $) {
 			data: {}
 		});
 
-		self.currentUser = ko.observable(null);
-		self.isLoggedIn = ko.computed(function() {
-			return self.currentUser() != null;
-		});
+		self.auth = auth;
 
 		self.loginClick = function() {
 			$("#loginModal").modal();
@@ -74,23 +82,35 @@ define(["ko", "jquery"], function(ko, $) {
 			postbox.notifySubscribers("facebook", "social_login");
 		}
 
+		self.starClicked = function(data) {
+			console.log(data)
+		}		
+
 		function setupSubscriptions() {
 			postbox.subscribe(onFeedData, null, "feed_newfeeddata");
 			postbox.subscribe(loginStatusChange, null, "user_login");
+			postbox.subscribe(markFeedAsRead, null, "feed_read");
 			self.feedUrl.subscribe(function(url) {
 				postbox.notifySubscribers(url, "new_feed_url")
 			});			
 		}
 
+		function markFeedAsRead(data) {
+			if(auth.isLoggedIn()) {
+				postbox.notifySubscribers(data, "mark_feed_as_read")
+			}
+		}
+
 		function loginStatusChange(user) {
-			self.currentUser(user);
-			if(self.isLoggedIn())
+			if(auth.isLoggedIn())
 				$("#loginModal").modal("hide");
+			if(!initialized)
+				postbox.notifySubscribers(null, "application_start");
 		}
 
 		function onFeedData(feedData) {
 			if(feedData && feedData.feed) {
-				self.activeFeed(new Feed(feedData));
+				self.activeFeed(new Feed(feedData, postbox));
 				self.activeTemplate({
 					name: "feed-overview",
 					data: {}

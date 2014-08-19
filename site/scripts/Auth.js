@@ -4,6 +4,11 @@ define(["ko", "firebase", "fbase-simpleloging"], function(ko) {
 			baseRef = new Firebase("https://feederapp.firebaseio.com"),
 			authClient = {};
 
+		self.currentUser = ko.observable(null);
+		self.isLoggedIn = ko.computed(function() {
+			return self.currentUser() != null;
+		});
+
 		function init() {
 			setupAuthClient();
 			setupSubscriptions();
@@ -15,9 +20,11 @@ define(["ko", "firebase", "fbase-simpleloging"], function(ko) {
 			    alert(error);
 			  } else if (user) {
 			  	registerUserIfNew(user, function() {
+			  		self.currentUser(user);
 			  		postbox.notifySubscribers(user, "user_login");	
 			  	});			    
 			  } else {
+			  	self.currentUser(null);
 			    postbox.notifySubscribers(null, "user_login");
 			  }
 			});

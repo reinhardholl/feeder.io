@@ -23,9 +23,8 @@
         var postbox = new ko.subscribable();
         var auth = new Auth(postbox);
 
-        var FeedModule = new FeedModule(postbox);
+        var FeedModule = new FeedModule(postbox, auth);
         var appViewModel = new AppViewModel(postbox, auth);          
         ko.applyBindings(appViewModel);
-        postbox.notifySubscribers(null, "application_start");
     });
 })();

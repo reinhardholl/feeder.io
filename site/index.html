@@ -21,9 +21,9 @@
             Feeder.io</a>
         </div>
         <ul class="nav navbar-nav navbar-right">
-            <li data-bind="if: !isLoggedIn()"><a href="#" data-bind="click: loginClick">Login</a></li>
-            <li class="dropdown" data-bind="if: currentUser">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-bind="text: currentUser().displayName"><span class="caret"></span></a>
+            <li data-bind="if: !auth.isLoggedIn()"><a href="#" data-bind="click: loginClick">Login</a></li>
+            <li class="dropdown" data-bind="if: auth.currentUser">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-bind="text: auth.currentUser().displayName"><span class="caret"></span></a>
               <ul class="dropdown-menu" role="menu">
                 <li><a href="#" data-bind="click: logoutClick">Logout</a></li>
               </ul>
@@ -74,8 +74,9 @@
                       </div>
                       <hr />
                       <div>
-                          <a data-bind="attr: { href: link}" class="btn btn-primary btn-sm" target="_blank">Read more</a>
-                          <a class="btn btn-primary btn-sm pull-right"><i class="glyphicon glyphicon-star"></i></a>
+                          <a data-bind="visible: isNew, click: feedReadClicked" class="btn btn-primary btn-sm">Read more</a>
+                          <a data-bind="visible: !isNew(), click: feedReadClicked" class="btn btn-success btn-sm">Read Again</a>
+                          <a class="btn btn-primary btn-sm pull-right" data-bind="click: $root.starClicked, visible: $root.isLoggedIn"><i class="glyphicon glyphicon-star"></i></a>
                       </div>
                   </div>
               </div>
