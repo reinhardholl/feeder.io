@@ -25,18 +25,16 @@ define(["jquery", "firebase"], function($) {
 				setIsNewFlagOnFeedFromDatabase(feedData, function(finalData) {
 					postbox.notifySubscribers(finalData, "feed_newfeeddata");
 				});
-			});
-
-			google.feeds.findFeeds("cars", function(feds) {
-				console.log(feds)
-			})
+			});			
 		}
 
 		function setIsNewFlagOnFeedFromDatabase(feedData, done) {
+			var feedDataEntries = feedData.feed.entries;
 			if(!auth.isLoggedIn()) {
-				for(z=0; feedData.feed.entries.length; z++) {
-					feedData.feed.entries[z].isNew = true;
+				for(z=0; z < feedDataEntries.length; z++) {
+					feedDataEntries[z].isNew = true;
 				}
+				feedData.entries = feedDataEntries;
 				return done(feedData);
 			}				
 
@@ -44,7 +42,6 @@ define(["jquery", "firebase"], function($) {
 			query.on('value', function (snapshot) {
 			  var feeds = snapshot.val();
 			  // clean this up
-			  var feedDataEntries = feedData.feed.entries;
 			  for(z=0; z<feedDataEntries.length; z++) {
 			  	for(var key in feeds) {
 			  		if(feeds[key] == feedDataEntries[z].link) {
@@ -56,7 +53,6 @@ define(["jquery", "firebase"], function($) {
 			  		feedDataEntries[z].isNew = true;
 			  }
 			  feedData.feed.entries = feedDataEntries;
-			  console.log("actually loaded")
 			  query.off();
 			  done(feedData);			  
 			});			
