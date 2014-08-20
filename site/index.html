@@ -38,11 +38,21 @@
       </div>
       <div id="loginModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-      <div class="modal-content">
+      <div class="modal-content">       
         <div class="modal-body" style="text-align: center">
-          <a class="btn btn-primary btn-large col-sm-6" data-bind="click: loginWithFacebook">Login With Facebook</a>
-          <br />
-        </div>
+          <div class="container">
+               <div class="row">
+                  <div class="col-lg-6 col-sm-5">
+                    <img src="theme/img/logo_big.png" style="height: 350px"></img>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-6 col-sm-5">
+                    <a class="btn btn-primary btn-large" data-bind="click: loginWithFacebook">Login With Facebook</a>
+                  </div>            
+              </div>
+            </div> 
+          </div>        
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
         </div>
