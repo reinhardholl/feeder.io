@@ -7,6 +7,13 @@
 .post .content
 {
     padding: 15px;
+    overflow: hidden;
+    max-height: 400px;
+}
+
+.post .footer
+{
+    padding: 15px
 }
 .post .author
 {
@@ -38,4 +45,26 @@
     color: #FFF;
     padding: 10px 15px;
     margin-top: 5px;
+}
+
+#overlay
+{
+    position:fixed;
+    top:0;
+    right:0;
+    bottom:0;
+    left:0;
+    z-index:1040;
+    background-color:#000;
+    opacity: .8;
+    filter:alpha(opacity=80);
+}
+
+#overlay img
+{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    margin-top: -50px;
+    margin-left: -100px;
 }

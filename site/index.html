@@ -13,6 +13,9 @@
     <![endif]-->
   </head>
   <body>
+    <div id="overlay">
+      <img src="theme/img/loader.gif"></img>
+    </div>
     <div class="navbar navbar-default navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
@@ -21,16 +24,25 @@
             Feeder.io</a>
         </div>
         <ul class="nav navbar-nav navbar-right">
-            <li data-bind="if: !isLoggedIn()"><a href="#" data-bind="click: loginClick">Login</a></li>            
+            <li data-bind="if: !auth.isLoggedIn()"><a href="#" data-bind="click: loginClick">Login</a></li>
+            <li class="dropdown" data-bind="if: auth.currentUser">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-bind="text: auth.currentUser().displayName"><span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="#" data-bind="click: logoutClick">Logout</a></li>
+              </ul>
+            </li>      
           </ul>
       </div>
     </div>
     <div class="container">
+      <br />
       <div class="page-header">
         <div class="row">
-          <div class="col-lg-8 col-md-7 col-sm-6">
-            <h1>Search Feeds</h1>
-            <input data-bind="value: feedUrl" type="text"></input>
+          <div class="col-md-5 col-md-offset-3">
+            <div class="input-group">
+              <span class="input-group-addon">Search</span>
+              <input data-bind="value: feedUrl, valueUpdate: 'afterkeydown'" type="text" class="form-control"></input>
+            </div>
           </div>
         </div>    
       </div>
@@ -74,13 +86,14 @@
                           By <b data-bind="text: author"></b> |
                           <time data-bind="text: publishedDate, attr: { datetime: publishedDate }"></time>
                       </div>
-                      <div data-bind="text: content">                          
+                      <div data-bind="html: content">                          
                       </div>
-                      <hr />
-                      <div>
-                          <a data-bind="attr: { href: link}" class="btn btn-primary btn-sm" target="_blank">Read more</a>
-                          <a class="btn btn-primary btn-sm pull-right"><i class="glyphicon glyphicon-star"></i></a>
-                      </div>
+                      <hr />                      
+                  </div>
+                  <div class="footer">
+                    <a data-bind="visible: isNew, click: feedReadClicked" class="btn btn-primary btn-sm">Read more</a>
+                    <a data-bind="visible: !isNew(), click: feedReadClicked" class="btn btn-success btn-sm">Read Again</a>
+                    <a class="btn btn-primary btn-sm pull-right" data-bind="click: $root.starClicked, visible: $root.isLoggedIn"><i class="glyphicon glyphicon-star"></i></a>
                   </div>
               </div>
         </div>

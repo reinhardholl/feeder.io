@@ -15,16 +15,16 @@
              "ko": {
                 deps: ["jquery"]    
              }
-        }
+        },
+        urlArgs: "bust=" + (new Date()).getTime()
     });
 
     require(["ko","FeedModule", "appViewModel", "auth", "jquery.bootstrap"], function (ko, FeedModule, AppViewModel, Auth) {
         var postbox = new ko.subscribable();
         var auth = new Auth(postbox);
 
-        var FeedModule = new FeedModule(postbox);
+        var FeedModule = new FeedModule(postbox, auth);
         var appViewModel = new AppViewModel(postbox, auth);          
         ko.applyBindings(appViewModel);
-        postbox.notifySubscribers(null, "application_start");
     });
 })();

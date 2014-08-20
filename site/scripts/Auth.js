@@ -1,8 +1,13 @@
 define(["ko", "firebase", "fbase-simpleloging"], function(ko) {
 	return function(postbox) {
 		var self = this,
-			ref = new Firebase("https://feederapp.firebaseio.com"),
+			baseRef = new Firebase("https://feederapp.firebaseio.com"),
 			authClient = {};
+
+		self.currentUser = ko.observable(null);
+		self.isLoggedIn = ko.computed(function() {
+			return self.currentUser() != null;
+		});
 
 		function init() {
 			setupAuthClient();
@@ -10,30 +15,41 @@ define(["ko", "firebase", "fbase-simpleloging"], function(ko) {
 		}
 
 		function setupAuthClient() {
-			authClient = new FirebaseSimpleLogin(ref, function(error, user) {
+			authClient = new FirebaseSimpleLogin(baseRef, function(error, user) {
 			  if (error) {
 			    alert(error);
 			  } else if (user) {
-			  	registerUserIfNew(user);
-			    postbox.notifySubscribers(user, "user_login");
-			    console.log("User ID: " + user.uid + ", Provider: " + user.provider);
+			  	registerUserIfNew(user, function() {
+			  		self.currentUser(user);
+			  		postbox.notifySubscribers(user, "user_login");	
+			  	});			    
 			  } else {
+			  	self.currentUser(null);
 			    postbox.notifySubscribers(null, "user_login");
-			    console.log("user is logged out");
 			  }
 			});
 		}
 
-		function registerUserIfNew(user) {
-			ref.child('users').child(user.uid).set({
-		        displayName: user.displayName,
-		        provider: user.provider,
-		        provider_id: user.id
-		      });
-		}
-
 		function setupSubscriptions() {
 			postbox.subscribe(login, null, "social_login");
+			postbox.subscribe(logout, null, "logout_click");
+		}
+
+		function registerUserIfNew(user, done) {
+			baseRef.child("users").child(user.uid).once("value", function(data) {
+				if(data.val()) return done(); // not a new user
+
+				baseRef.child('users').child(user.uid).set({
+			        displayName: user.displayName,
+			        provider: user.provider,
+			        provider_id: user.id
+		      	});
+		      	done();
+			});
+		}
+
+		function logout() {
+			authClient.logout();
 		}
 
 		function login(provider) {
